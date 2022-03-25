@@ -18,7 +18,7 @@ Here [are some notes](https://github.com/dogsheep/dogsheep-photos/issues/4) on c
 I personally, just:
 
 - Created a S3 bucket with no public access
-- Created an IAM user which has full access to S3
+- Created an IAM user which has `AmazonS3FullAccess`
 
 ## Deployment
 
