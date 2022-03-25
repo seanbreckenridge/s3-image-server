@@ -1,0 +1,6 @@
+starlette
+pyheif
+httpx
+Pillow
+boto3
+python-dotenv
