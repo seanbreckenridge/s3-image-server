@@ -21,7 +21,7 @@ setup(
             "flake8",
         ],
     },
-    entry_points={"console_scripts": ["{pkg} = {pkg}.__main__:cli".format(pkg=pkg)]},
+    entry_points={"console_scripts": ["{pkg} = {pkg}.__main__:main".format(pkg=pkg)]},
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
