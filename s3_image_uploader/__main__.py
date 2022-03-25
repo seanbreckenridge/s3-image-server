@@ -5,7 +5,7 @@ from typing import Optional
 import click
 
 
-from . import upload
+from . import upload_with_index
 
 
 @click.command()
@@ -30,37 +30,48 @@ from . import upload
     required=False,
     default=None,
 )
+@click.option(
+    "--index/--no-index",
+    default=False,
+    help="index image to local index -- prevents duplicate uploads",
+)
 @click.argument("TARGET", type=str)
 def main(
-    url: str, post_token: str, target: str, target_filename: Optional[str]
+    url: str,
+    post_token: str,
+    target: str,
+    target_filename: Optional[str],
+    index: bool,
 ) -> None:
     remote_url: str
     if Path(target).resolve().absolute().exists():
         if target_filename is None:
             target_filename = os.path.basename(target)
             assert os.path.isfile(target)
-        remote_url = upload(
+        remote_url = upload_with_index(
             instance_url=url,
             post_token=post_token,
             target_filename=target_filename,
             file=target,
+            index=index,
         )
     else:
         assert target.startswith("http"), f"Not an HTTP url: {target}"
         if target_filename is None:
             target_filename = click.prompt("Target filename to upload to", type=str)
         assert target_filename is not None
-        remote_url = upload(
+        remote_url = upload_with_index(
             instance_url=url,
             post_token=post_token,
             target_filename=target_filename,
             url=target,
+            index=index,
         )
 
     click.echo(remote_url)
 
     try:
-        import pyperclip
+        import pyperclip  # type: ignore[import]
 
         pyperclip.copy(remote_url)
     except ImportError:
