@@ -71,6 +71,7 @@ def upload_with_index(
     post_token: Optional[str] = None,
     url: Optional[str] = None,
     file: Optional[PathIsh] = None,
+    use_s3_public_url: Optional[str] = None,
 ) -> str:
     instance_url, post_token = from_env(instance_url, post_token)
     from . import cache
@@ -86,7 +87,10 @@ def upload_with_index(
     else:
         # this assumes that the file hasnt been deleted
         if cache.has(target_filename):
-            return instance_url + f"/i/{target_filename}"
+            if use_s3_public_url:
+                return f"{use_s3_public_url}/{target_filename}"
+            else:
+                return instance_url + f"/i/{target_filename}"
         else:
             url = upload(
                 target_filename=target_filename,
@@ -96,4 +100,7 @@ def upload_with_index(
                 file=file,
             )
             cache.add(target_filename)
-            return url
+            if use_s3_public_url:
+                return f"{use_s3_public_url}/{target_filename}"
+            else:
+                return url
