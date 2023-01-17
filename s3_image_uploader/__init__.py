@@ -77,13 +77,16 @@ def upload_with_index(
     from . import cache
 
     if not index:
-        return upload(
+        url = upload(
             target_filename=target_filename,
             instance_url=instance_url,
             post_token=post_token,
             url=url,
             file=file,
         )
+        if use_s3_public_url is not None:
+            url = f"{use_s3_public_url}/{target_filename}"
+        return url
     else:
         # this assumes that the file hasnt been deleted
         if cache.has(target_filename):
