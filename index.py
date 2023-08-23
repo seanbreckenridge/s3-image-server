@@ -59,7 +59,7 @@ async def image(request: Request) -> Response:
         return JSONResponse({"error": "path param must not be empty"}, status_code=400)
     if ext.strip() == "":
         return JSONResponse(
-            {"error": "extention for path must not be empty"}, status_code=400
+            {"error": "extension for path must not be empty"}, status_code=400
         )
 
     url = url_for_image(path, ext)
@@ -157,7 +157,7 @@ async def upload(request: Request) -> Response:
         return JSONResponse({"error": "path param must not be empty"}, status_code=400)
     if ext.strip() == "":
         return JSONResponse(
-            {"error": "extention for path must not be empty"}, status_code=400
+            {"error": "extension for path must not be empty"}, status_code=400
         )
 
     if not secrets.compare_digest(body["token"], os.environ["POST_TOKEN"]):
